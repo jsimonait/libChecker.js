@@ -3,7 +3,6 @@
 * @author: jsimonait <jsimonait@gmail.com>
 */
 
-
 (function(root, undefined) {
 
     root.libChecker = new function() {
@@ -56,116 +55,153 @@
                 
                 return 0;
             },
-            isValid: function(lib, cversion, version){
-                if (!lib.exist() || 
-                    cversion === undefined || 
-                    cversion === null || 
-                    cversion === ""){
+            versionIsValid: function(cversion, version){
+                if (cversion === undefined || version === undefined || 
+                    cversion === null || version === null ||
+                    cversion === "" || version === ""){
                     return false;
                 }
 
                 return true;
             },
-            equal: function(lib, version) { 
+            equal: function(lib, version) {
+                if (!lib.exist()) return undefined;
+
                 var cversion = lib.version.getCurrent();
                 var helpers = root.libChecker.helpers;
 
-                if(!helpers.isValid(lib, cversion, version)) return undefined;
+                if(!helpers.versionIsValid(cversion, version)) return undefined;
 
                 return helpers.compare(cversion, version) === 0;
             }, 
             lessThan: function(lib, version) { 
+                if (!lib.exist()) return undefined;
+
                 var cversion = lib.version.getCurrent();
                 var helpers = root.libChecker.helpers;
 
-                if(!helpers.isValid(lib, cversion, version)) return undefined;
+                if(!helpers.versionIsValid(cversion, version)) return undefined;
 
                 return helpers.compare(cversion, version) === -1;
             },
             greaterThan:  function(lib, version) { 
+                if (!lib.exist()) return undefined;
+
                 var cversion = lib.version.getCurrent();
                 var helpers = root.libChecker.helpers;
 
-                if(!helpers.isValid(lib, cversion, version)) return undefined;
+                if(!helpers.versionIsValid(cversion, version)) return undefined;
 
                 return helpers.compare(cversion, version) === 1;
             }
         };
     };
 
-    root.libChecker.libs = new function(){
-        
+    root.libChecker.libs = new function () {
+
         var helpers = root.libChecker.helpers;
 
-        this.jquery = new function(){
+        this.jquery = new function () {
             var lib = this;
-            
-            this.exist = function() { return typeof jQuery != 'undefined'; };
+
+            this.exist = function() { 
+                return typeof jQuery != 'undefined'; 
+            };
 
             this.version = new function() {
-                this.getCurrent = function() { return jQuery.fn.jquery; };
+                this.getCurrent = function () {
+                    if (!lib.exist()) return undefined;
+                    
+                    return jQuery.fn.jquery;
+                };
                 this.equal = function(version) { return helpers.equal(lib, version); };
-                this.lessThan = function (version) { return helpers.lessThan(lib, version); };
-                this.greaterThan = function (version) { return helpers.greaterThan(lib, version); };
-            }
+                this.lessThan = function(version) { return helpers.lessThan(lib, version); };
+                this.greaterThan = function(version) { return helpers.greaterThan(lib, version); };
+            };
         };
 
-        this.marionette = new function(){
-            this.exist = function() { return typeof Marionette != 'undefined'; };
+        this.marionette = new function () {
+            this.exist = function() {
+                 return typeof Marionette != 'undefined';
+            };
         };
 
-        this.backbone = new function(){
+        this.backbone = new function () {
             var lib = this;
-            
-            this.exist = function() { return typeof Backbone != 'undefined'; };
+
+            this.exist = function () { 
+                return typeof Backbone != 'undefined'; 
+            };
 
             this.version = new function() {
-                this.getCurrent = function() { return Backbone.VERSION; };
+                this.getCurrent = function () {
+                    if (!lib.exist()) return undefined;
+                    
+                    return Backbone.VERSION;
+                };
                 this.equal = function(version) { return helpers.equal(lib, version); };
-                this.lessThan = function (version) { return helpers.lessThan(lib, version); };
-                this.greaterThan = function (version) { return helpers.greaterThan(lib, version); };
-            }
+                this.lessThan = function(version) { return helpers.lessThan(lib, version); };
+                this.greaterThan = function(version) { return helpers.greaterThan(lib, version); };
+            };
         };
 
-        this.underscore = new function(){
+        this.underscore = new function () {
             var lib = this;
-            
-            this.exist = function() { return typeof _ != 'undefined'; };
+
+            this.exist = function () { 
+                return typeof _ != 'undefined'; 
+            };
 
             this.version = new function() {
-                this.getCurrent = function() { return _.VERSION; };
+                this.getCurrent = function () {
+                    if (!lib.exist()) return undefined;
+                    
+                    return _.VERSION;
+                };
                 this.equal = function(version) { return helpers.equal(lib, version); };
-                this.lessThan = function (version) { return helpers.lessThan(lib, version); };
-                this.greaterThan = function (version) { return helpers.greaterThan(lib, version); };
-            }
+                this.lessThan = function(version) { return helpers.lessThan(lib, version); };
+                this.greaterThan = function(version) { return helpers.greaterThan(lib, version); };
+            };
         };
 
-        this.knockout = new function(){
+        this.knockout = new function () {
             var lib = this;
-            
-            this.exist = function() { return typeof ko != 'undefined'; };
+
+            this.exist = function () { 
+                return typeof ko != 'undefined'; 
+            };
 
             this.version = new function() {
-                this.getCurrent = function() { return ko.version; };
+                this.getCurrent = function () {
+                    if (!lib.exist()) return undefined;
+
+                    return ko.version;
+                };
                 this.equal = function(version) { return helpers.equal(lib, version); };
-                this.lessThan = function (version) { return helpers.lessThan(lib, version); };
-                this.greaterThan = function (version) { return helpers.greaterThan(lib, version); };
-            }
+                this.lessThan = function(version) { return helpers.lessThan(lib, version); };
+                this.greaterThan = function(version) { return helpers.greaterThan(lib, version); };
+            };
         };
 
-        this.require = new function(){
+        this.require = new function () {
             var lib = this;
-            
-            this.exist = function() { return typeof require != 'undefined'; };
+
+            this.exist = function () { 
+                return typeof require != 'undefined'; 
+            };
 
             this.version = new function() {
-                this.getCurrent = function() { return require.version; };
+                this.getCurrent = function () {
+                    if (!lib.exist()) return undefined;
+
+                    return require.version;
+                };
                 this.equal = function(version) { return helpers.equal(lib, version); };
-                this.lessThan = function (version) { return helpers.lessThan(lib, version); };
-                this.greaterThan = function (version) { return helpers.greaterThan(lib, version); };
-            }
+                this.lessThan = function(version) { return helpers.lessThan(lib, version); };
+                this.greaterThan = function(version) { return helpers.greaterThan(lib, version); };
+            };
         };
-        
+
     };
 
 })(window);

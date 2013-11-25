@@ -55,37 +55,42 @@
                 
                 return 0;
             },
-            isValid: function(lib, cversion, version){
-                if (!lib.exist() || 
-                    cversion === undefined || 
-                    cversion === null || 
-                    cversion === ""){
+            versionIsValid: function(cversion, version){
+                if (cversion === undefined || version === undefined || 
+                    cversion === null || version === null ||
+                    cversion === "" || version === ""){
                     return false;
                 }
 
                 return true;
             },
-            equal: function(lib, version) { 
+            equal: function(lib, version) {
+                if (!lib.exist()) return undefined;
+
                 var cversion = lib.version.getCurrent();
                 var helpers = root.libChecker.helpers;
 
-                if(!helpers.isValid(lib, cversion, version)) return undefined;
+                if(!helpers.versionIsValid(cversion, version)) return undefined;
 
                 return helpers.compare(cversion, version) === 0;
             }, 
             lessThan: function(lib, version) { 
+                if (!lib.exist()) return undefined;
+
                 var cversion = lib.version.getCurrent();
                 var helpers = root.libChecker.helpers;
 
-                if(!helpers.isValid(lib, cversion, version)) return undefined;
+                if(!helpers.versionIsValid(cversion, version)) return undefined;
 
                 return helpers.compare(cversion, version) === -1;
             },
             greaterThan:  function(lib, version) { 
+                if (!lib.exist()) return undefined;
+
                 var cversion = lib.version.getCurrent();
                 var helpers = root.libChecker.helpers;
 
-                if(!helpers.isValid(lib, cversion, version)) return undefined;
+                if(!helpers.versionIsValid(cversion, version)) return undefined;
 
                 return helpers.compare(cversion, version) === 1;
             }
